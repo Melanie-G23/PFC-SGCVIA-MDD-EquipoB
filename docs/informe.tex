@@ -1,1 +1,69 @@
 
+CONFIGURACIÓN DEL GENERADOR PARA C++
+La generación de código en BOUML se configura a través del menú Project > Edit Generation Settings.
+Lenguajes Soportados por BOUML:
+•	C++ - Gestión de declaraciones/definiciones por defecto
+•	Java - Gestión y definición por defecto
+•	PHP - Gestión y definición por defecto
+•	Python - Gestión y definición por defecto
+•	IDL - Gestión de declaraciones por defecto
+•	MySQL - Gestión y definición por defecto
+Nota: C# no está disponible en BOUML, por lo que se seleccionó C++ como lenguaje objetivo.
+Parámetros de Configuración:
+
+Parámetro	Configuración
+Default target language	C++
+Default source directory	./CodigoGenerado
+Verbose code generation	Activado
+Preserve operations's body	Activado
+Política de regeneración	Actualización incremental
+
+PROCESO DE GENERACIÓN DE CÓDIGO
+Estructura de Archivos Generados en C++:
+Para cada clase, BOUML genera dos archivos:
+•	Archivo .h (Header): Contiene la declaración de la clase, atributos, métodos y relaciones.
+•	Archivo .cpp (Implementation): Contiene la implementación de los métodos (con cuerpos vacíos por defecto).
+Pasos para Generar:
+1.	Verificar que C++ esté activado en Languages → C++
+2.	Configurar directorio de salida en Edit Generation Settings
+3.	Crear Deployment View y asociar con Class View
+4.	Crear artefactos para cada clase
+
+5.	Clic derecho en Deployment View → Generate → C++
+VERIFICACIÓN DEL CÓDIGO GENERADO
+Correspondencia Modelo-Código en C++:
+
+Clase UML	Archivo Generado	Contenido
+Usuario	Usuario.h / .cpp	Clase abstracta con atributos y métodos
+Administrador	Administrador.h / .cpp	Hereda de Usuario, atributo cargo
+Veterinario	Veterinario.h / .cpp	Hereda de Usuario, atributos especialidad, numeroLicencia
+Cliente	Cliente.h / .cpp	Atributos nombre, telefono, correo, direccion
+Mascota	Mascota.h / .cpp	Atributos nombre, especie, raza, peso
+AtencionClinica	AtencionClinica.h / .cpp	Atributos fecha, motivoConsulta, diagnostico, estado
+HistorialClinico	HistorialClinico.h / .cpp	Atributos fechaCreacion, observaciones
+SugerenciaIA	SugerenciaIA.h / .cpp	Atributos diagnosticoSugerido, nivelConfianza, estado
+Limitaciones Detectadas:
+•	Los cuerpos de los métodos se generan vacíos (con comentario para implementar)
+•	No se genera automáticamente la lógica de negocio
+•	Se requiere implementar manualmente la lógica de validación y persistencia
+•	La gestión de colecciones (List, Vector) debe ser configurada manualmente
+ROUNDTRIP ENGINEERING
+Demostración Práctica en C++:
+Se ejecutó un cambio significativo en el modelo: la adición del atributo peso a la clase Mascota.
+Antes del Cambio:
+La clase Mascota tenía los atributos: nombre, especie, raza, sexo, fechaNacimiento.
+Después del Cambio:
+1.	Se agregó el atributo peso al modelo en BOUML
+2.	Se regeneró el código seleccionando Generate → C++
+3.	Los archivos Mascota.h y Mascota.cpp se actualizaron automáticamente
+Cambios en el Código Generado:
+En Mascota.h (antes): cpp
+private:
+std::string nombre;
+
+std::string especie; std::string raza;
+En Mascota.h (después):
+cpp private:
+std::string nombre; std::string especie; std::string raza; float peso;
+Traza del Cambio:
+El cambio en el modelo se reflejó en el código sin perder el trabajo manual implementado en los métodos. BOUML actualizó los archivos añadiendo el nuevo atributo y sus correspondientes métodos getter/setter.
